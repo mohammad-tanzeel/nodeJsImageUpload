@@ -2,7 +2,7 @@ const express = require("express");
 const multer = require("multer");
 const path = require("path");
 const router = express.Router();
-const { imageUploader } = require("../controller/uploadFile");
+const { imageUploader, getImages } = require("../controller/uploadFile");
 // Image Upload
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -10,6 +10,7 @@ const storage = multer.diskStorage({
   },
 
   filename: function (req, file, cb) {
+    console.log("files resp", file);
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
     const fileToSave =
       file.fieldname +
@@ -55,5 +56,5 @@ router.get(
     res.status(400).send({ error: error.message });
   }
 );
-
+router.get("/getImages", getImages);
 module.exports = router;
